@@ -1,0 +1,23 @@
+
+.mat-mdc-table {
+    width: 100%;
+    max-height: 500px;
+    overflow: auto;
+    mat-header-cell{
+        background-color: rgb(217, 217, 217);
+        color: rgb(50, 67, 149);
+        font-size: 25px
+    } 
+}
+
+.mat-column-name {
+    height: 80px;
+    width: 40%;
+    border-right: 1px solid currentColor;
+    padding-right: 24px;
+    text-align: center;
+}
+  
+.mat-column-logo {
+    padding-left: 16px;
+}  

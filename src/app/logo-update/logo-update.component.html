@@ -1,0 +1,11 @@
+<div class="container">
+    <div class="container-icon">
+        <div class="example-button-container">
+            <button (click)="toggleImageUploadBox()" mat-mini-fab aria-label="Example icon button with a menu icon" >
+              <mat-icon >collections</mat-icon>
+            </button>
+        </div>
+    </div>    
+    <app-table [data]="updateLogoStore.slidesData() ?? []"></app-table>
+</div>
+

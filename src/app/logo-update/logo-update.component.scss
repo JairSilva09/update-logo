@@ -1,0 +1,16 @@
+.container{
+    position: relative;
+    width: 80%;
+    margin: auto;
+    top: 100px;
+    .container-icon{
+       
+        button{
+            float: right;
+            margin-bottom: 10px;
+            mat-icon{
+                color: rgb(50, 67, 149);
+            } 
+        }
+    }
+}
