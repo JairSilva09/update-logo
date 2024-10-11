@@ -6,5 +6,5 @@ export const routes: Routes = [
         path: ':id',
         component: LogoUpdateComponent,
     },
-    { path: '**', redirectTo: 'init' }
+    { path: '**', redirectTo: '/Test_WELL_PLATFORM' }
 ];
