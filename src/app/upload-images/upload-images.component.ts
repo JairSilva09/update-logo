@@ -58,7 +58,7 @@ export class UploadImagesComponent {
         let FileType = event.target.files[i].type
         reader.onload = (event: any) => {
           this.resourceData = {
-            "ProjectName": localStorage.getItem('projectName'),
+            "ProjectName": this.updateLogoStore.projectName(),
             "FileName": FileName.split(' ').join(''),
             "ItemType": 'logo-rate',
             "FileType": FileType,
