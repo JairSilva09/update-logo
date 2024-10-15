@@ -20,7 +20,7 @@ export class UpdateLogoService {
   brandMatrixResourceUpload: string;
 
   constructor(private http: HttpClient) {
-    this.awsBaseUrl = "https://0hq9qn97gk.execute-api.us-east-1.amazonaws.com/prod-bitools01/tmx";
+    this.awsBaseUrl = 'https://tools.brandinstitute.com//wsBrandMatrix/wsBrandMatrix.asmx'
     this.awsToken = "38230499-A056-4498-80CF-D63D948AA57F";
     this.brandMatrixResourceUpload = '/BrandMatrixResourceUpload'
   }
