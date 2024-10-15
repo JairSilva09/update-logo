@@ -85,7 +85,7 @@ export class UploadImagesComponent {
       imageObject['FileContent'] = imageObject['FileContent'].split(imageObject['FileContent'].split(",")[0] + ',').pop()
       this.updateLogoService.saveFileResources(JSON.stringify(imageObject)).subscribe({
         next: (response: any) => {
-
+          console.log(response)
         },
         error: (err: any) => console.error(err)
       })
