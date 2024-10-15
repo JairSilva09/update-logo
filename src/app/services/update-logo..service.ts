@@ -18,11 +18,15 @@ export class UpdateLogoService {
   awsBaseUrl: string
   awsToken: string;
   brandMatrixResourceUpload: string;
+  logosBaseUrl: string;
 
   constructor(private http: HttpClient) {
-    this.awsBaseUrl = 'https://tools.brandinstitute.com//wsBrandMatrix/wsBrandMatrix.asmx'
+    this.awsBaseUrl = "https://0hq9qn97gk.execute-api.us-east-1.amazonaws.com/prod-bitools01/tmx";
+    this.logosBaseUrl = 'https://tools.brandinstitute.com//wsBrandMatrix/wsBrandMatrix.asmx'
     this.awsToken = "38230499-A056-4498-80CF-D63D948AA57F";
     this.brandMatrixResourceUpload = '/BrandMatrixResourceUpload'
+
+  
   }
   
 
@@ -61,6 +65,6 @@ export class UpdateLogoService {
   }
 
   saveFileResources(resourceData: any) {
-    return this.http.post(this.awsBaseUrl + this.brandMatrixResourceUpload, { token: '646EBF52-1846-47C2-9F62-DC50AE5BF692', payload: resourceData });
+    return this.http.post(this.logosBaseUrl + this.brandMatrixResourceUpload, { token: '646EBF52-1846-47C2-9F62-DC50AE5BF692', payload: resourceData });
   }
 }
