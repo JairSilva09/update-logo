@@ -72,9 +72,11 @@ export class LogoUpdateComponent implements OnInit{
   } 
 
   toggleImageUploadBox() {
-    // this.uploadImagesBox = !this.uploadImagesBox
     const dialogRef = this.dialog.open(UploadImagesComponent, {
       width: '600px',
+      data: {
+        slide: null
+      }
     });
 
     dialogRef.afterClosed().subscribe((result) => {

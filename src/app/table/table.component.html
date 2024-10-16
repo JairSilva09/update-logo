@@ -7,7 +7,12 @@
   
   <ng-container matColumnDef="logo">
     <mat-header-cell *matHeaderCellDef> Logo </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.logo}} </mat-cell>
+    <mat-cell *matCellDef="let element">
+      <div class="logo-container">
+        <img [src]="element.logoUrl" alt="">
+        <mat-icon (click)="toggleImageUploadBox(element)">cloud_upload</mat-icon>
+      </div>
+    </mat-cell>
   </ng-container>
   
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

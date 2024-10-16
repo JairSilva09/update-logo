@@ -1,13 +1,17 @@
 
 .mat-mdc-table {
     width: 100%;
-    max-height: 500px;
+    max-height: 750px;
     overflow: auto;
     mat-header-cell{
         background-color: rgb(217, 217, 217);
         color: rgb(50, 67, 149);
         font-size: 25px
-    } 
+    }
+    img{
+        width: 100%;
+        max-width: 75px;
+    }
 }
 
 .mat-column-name {
@@ -20,4 +24,19 @@
   
 .mat-column-logo {
     padding-left: 16px;
-}  
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .logo-container img {
+    margin-right: 8px;
+  }
+  
+  .logo-container mat-icon {
+    cursor: pointer; /* Si deseas que sea interactivo */
+  }

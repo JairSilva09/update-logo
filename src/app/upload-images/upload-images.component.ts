@@ -4,9 +4,10 @@ import { CommonModule } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import {MatIconModule} from '@angular/material/icon';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule,MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UpdateLogoStore } from '../../store/update-logo.store';
 import { UpdateLogoService } from '../services/update-logo..service';
+import { Slide } from '../../models';
 
 @Component({
   selector: 'upload-images',
@@ -15,7 +16,7 @@ import { UpdateLogoService } from '../services/update-logo..service';
     DragDropModule,
     CommonModule,
     MatIconModule,
-    MatDialogModule
+    MatDialogModule,
   ],
   templateUrl: './upload-images.component.html',
   styleUrl: './upload-images.component.scss'
@@ -23,26 +24,24 @@ import { UpdateLogoService } from '../services/update-logo..service';
 export class UploadImagesComponent {
   readonly updateLogoStore = inject(UpdateLogoStore)
   readonly updateLogoService = inject(UpdateLogoService)
+  readonly matData = inject(MAT_DIALOG_DATA)
 
   IMAGES_UPLOADED: any[];
   firstTime: boolean
   logoWidth = 200;
   resourceData: any;
   uploadImagesBox: boolean;
+  slide = input<Slide>();
 
-  constructor(){
+  constructor(private dialogRef: MatDialogRef<UploadImagesComponent>){
     this.IMAGES_UPLOADED = []
     this.firstTime = true;
     this.uploadImagesBox = false;
+    console.log(this.matData)    
   }
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.IMAGES_UPLOADED, event.previousIndex, event.currentIndex);
-  }
-
-  closeImageUploadBox(){
-   
-        
   }
 
   deleteImage(index: any) {
@@ -75,44 +74,38 @@ export class UploadImagesComponent {
   uploadAllImages() {
 
     if (this.firstTime) {this.firstTime = false}
-    let slides = this.updateLogoStore.slidesData() ?? []
+    if(this.matData.slide) {
+      const imageObject = this.IMAGES_UPLOADED[0]
 
-    if (slides.length > 0 && this.IMAGES_UPLOADED.length > slides.length) {
-      this.IMAGES_UPLOADED.splice(slides.length + 1,this.IMAGES_UPLOADED.length+ 1 )
-      // this.bmxItem.componentText.splice(this.IMAGES_UPLOADED.length + 1, this.bmxItem.componentText.length + 1)
-    }
-    this.IMAGES_UPLOADED.forEach((imageObject, index) => {
       imageObject['FileContent'] = imageObject['FileContent'].split(imageObject['FileContent'].split(",")[0] + ',').pop()
       this.updateLogoService.saveFileResources(JSON.stringify(imageObject)).subscribe({
-        next: (response: any) => {
-          console.log(response)
+        next: (data: any) => {  
+          const response = data.d          
+          const parsedObject = JSON.parse(response)
+          this.updateLogoStore.updateSlideLogoUrl(this.matData.slide.SlideDescription,parsedObject.FileUrl)
+          console.log(parsedObject)
         },
         error: (err: any) => console.error(err)
-      })
-      // this.updateLogoService.saveFileResources(JSON.stringify(imageObject)).subscribe((result: any) => {
-      //   this.IMAGES_UPLOADED.shift()
-      //   if (index == 0) {
-      //     this.bmxItem.componentText[index].nameCandidates = "LOGO"
-      //   }
-      //   if (this.bmxItem.componentText[index + 1]) {
-      //     this.bmxItem.componentText[index + 1].nameCandidates = JSON.parse(result.d).FileUrl
-      //   } else {
-      //     this.bmxItem.componentText.push({ ...this.bmxItem.componentText[1], nameCandidates: JSON.parse(result.d).FileUrl })
-      //     const lastItem = this.bmxItem.componentText[this.bmxItem.componentText.length - 1];
-      //     for (const key in lastItem) {
-      //       if (lastItem.hasOwnProperty(key)) {
-      //         if(key != 'RATE'&& key != 'nameCandidates' && key!= 'STARS'){
-      //           lastItem[key]=''
-      //         }
-      //       }
-      //     }
-      //   }
-
-      // });
-    });
-    setTimeout(() => {
-      this.uploadImagesBox = false;
-    }, 1000);
+      })      
+    }else {
+      let slides = this.updateLogoStore.slidesData() ?? []
+      if (slides.length > 0 && this.IMAGES_UPLOADED.length > slides.length) {
+        this.IMAGES_UPLOADED.splice(slides.length + 1,this.IMAGES_UPLOADED.length+ 1 )
+        // this.bmxItem.componentText.splice(this.IMAGES_UPLOADED.length + 1, this.bmxItem.componentText.length + 1)
+      }
+      this.IMAGES_UPLOADED.forEach((imageObject, index) => {
+        imageObject['FileContent'] = imageObject['FileContent'].split(imageObject['FileContent'].split(",")[0] + ',').pop()
+        this.updateLogoService.saveFileResources(JSON.stringify(imageObject)).subscribe({
+          next: (data: any) => {  
+            const response = data.d          
+            const parsedObject = JSON.parse(response)
+            this.updateLogoStore.updateSlideLogoUrl(index,parsedObject.FileUrl)
+            console.log(parsedObject)
+          },
+          error: (err: any) => console.error(err)
+        })            
+      });
+    }  
+    this.dialogRef.close()
   }
-
 }
