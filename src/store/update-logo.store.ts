@@ -9,6 +9,7 @@ import { AppState, Slide } from '../models';
 import { withStorageSync } from './storage-ai-sync';
 
 const initialState: AppState = {
+  isLoading: false,
   slidesData: [],
   projectName: null,
   projectId: null,
@@ -23,6 +24,9 @@ export const UpdateLogoStore = signalStore(
   withMethods((store) => ({
     clearStore(){
       patchState(store, initialState);
+    },
+    updateIsLoading(loading: boolean): void {
+      patchState(store, {isLoading: loading});
     },
     updateSlidesData(slides: Slide[]): void {
       patchState(store, {slidesData: slides});

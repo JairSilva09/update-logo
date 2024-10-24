@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { UpdateLogoStore } from '../../store/update-logo.store';
+import { environment } from '../../environments/environment.development';
 import { map } from 'rxjs';
 
 const httpOptions = {
@@ -15,29 +16,26 @@ const httpOptions = {
 })
 
 export class UpdateLogoService {
-  awsBaseUrl: string
-  awsToken: string;
   brandMatrixResourceUpload: string;
-  logosBaseUrl: string;
+  get_projects: string;
 
-  constructor(private http: HttpClient) {
-    this.awsBaseUrl = "https://0hq9qn97gk.execute-api.us-east-1.amazonaws.com/prod-bitools01/tmx";
-    this.logosBaseUrl = 'https://tools.brandinstitute.com//wsBrandMatrix/wsBrandMatrix.asmx'
-    this.awsToken = "38230499-A056-4498-80CF-D63D948AA57F";
-    this.brandMatrixResourceUpload = '/BrandMatrixResourceUpload'
+  constructor(private http: HttpClient) {    
+    this.brandMatrixResourceUpload = '/BrandMatrixResourceUpload';
+    this.get_projects = '/projects'
+  }  
 
-  
+  getAllProjects(){    
+    return this.http.get(environment.awsBaseUrl+this.get_projects,httpOptions)
   }
-  
 
   getProjectData(projectId: string) {
     const data = {
-      token: '38230499-A056-4498-80CF-D63D948AA57F',
+      token: environment.awsToken,
       app: 'NW',
       method: 'NW_NamesAndSlides',
       projectid: projectId
     }
-    return this.http.post(this.awsBaseUrl, JSON.stringify(data), httpOptions).pipe(
+    return this.http.post(environment.awsBaseUrl, JSON.stringify(data), httpOptions).pipe(
       map(
         (response: any) => {
           const data = JSON.parse(response);
@@ -49,12 +47,12 @@ export class UpdateLogoService {
 
   getProjectId(projectName: string) {
     const data = {
-      token: this.awsToken,
+      token: environment.awsToken,
       app: 'NW',
       method: 'BiFormCreator',
       project: projectName
     }
-    return this.http.post(this.awsBaseUrl, JSON.stringify(data), httpOptions).pipe(
+    return this.http.post(environment.awsBaseUrl, JSON.stringify(data), httpOptions).pipe(
       map(
         (response: any) => {
           const data = JSON.parse(response);
@@ -65,6 +63,6 @@ export class UpdateLogoService {
   }
 
   saveFileResources(resourceData: any) {
-    return this.http.post(this.logosBaseUrl + this.brandMatrixResourceUpload, { token: '646EBF52-1846-47C2-9F62-DC50AE5BF692', payload: resourceData });
+    return this.http.post(environment.logosBaseUrl + this.brandMatrixResourceUpload, { token: '646EBF52-1846-47C2-9F62-DC50AE5BF692', payload: resourceData });
   }
 }

@@ -37,7 +37,6 @@ export class UploadImagesComponent {
     this.IMAGES_UPLOADED = []
     this.firstTime = true;
     this.uploadImagesBox = false;
-    console.log(this.matData)    
   }
 
   drop(event: CdkDragDrop<string[]>) {
@@ -83,7 +82,6 @@ export class UploadImagesComponent {
           const response = data.d          
           const parsedObject = JSON.parse(response)
           this.updateLogoStore.updateSlideLogoUrl(this.matData.slide.SlideDescription,parsedObject.FileUrl)
-          console.log(parsedObject)
         },
         error: (err: any) => console.error(err)
       })      
@@ -100,7 +98,6 @@ export class UploadImagesComponent {
             const response = data.d          
             const parsedObject = JSON.parse(response)
             this.updateLogoStore.updateSlideLogoUrl(index,parsedObject.FileUrl)
-            console.log(parsedObject)
           },
           error: (err: any) => console.error(err)
         })            

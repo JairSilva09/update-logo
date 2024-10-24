@@ -1,5 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { fromEvent } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { UpdateLogoStore } from '../../store/update-logo.store';
 import { UpdateLogoService } from '../services/update-logo..service';
 import { Slide } from '../../models';
@@ -7,15 +9,17 @@ import { TableComponent } from '../table/table.component';
 import { UploadImagesComponent } from '../upload-images/upload-images.component';
 import {MatIconModule} from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
-
-
+import { RemoveUnderscorePipe } from '../pipes/remove-underscore.pipe';
+import { SearchComponent } from '../shared/search/search.component';
 @Component({
   selector: 'app-logo-update',
   standalone: true,
   imports: [
     TableComponent,
     MatIconModule,
-    UploadImagesComponent
+    UploadImagesComponent,
+    RemoveUnderscorePipe,
+    SearchComponent
   ],
   templateUrl: './logo-update.component.html',
   styleUrl: './logo-update.component.scss'
@@ -38,7 +42,8 @@ export class LogoUpdateComponent implements OnInit{
       this.initializeProject()
     });    
   }
-  private initializeProject(): void {
+
+  public initializeProject(): void {
     const projectName = this.updateLogoStore.projectName() ?? '';    
     this.updateLogoService.getProjectId(projectName).subscribe(
       {
@@ -49,10 +54,9 @@ export class LogoUpdateComponent implements OnInit{
             {
               next: (response: Slide[]) => {
                 let newObj = response.filter((element: Slide) => {
-                  return element.SlideDescription !== '';
+                  return (element.SlideDescription !== '' && element.SlideType.toLowerCase() === 'nameevaluation');
                 }).slice(1);
-                newObj = newObj.map((obj: Slide) => {
-                  obj.logoUrl = '';
+                newObj = newObj.map((obj: Slide) => {                 
                   let str = obj.SlideDescription;
                   let result = str.match(/^[^()]+/);
                   if (result) {
@@ -69,7 +73,7 @@ export class LogoUpdateComponent implements OnInit{
         error: (err: any) => console.error(err)
       }
     );
-  } 
+  }
 
   toggleImageUploadBox() {
     const dialogRef = this.dialog.open(UploadImagesComponent, {
