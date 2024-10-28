@@ -4,6 +4,8 @@ import {MatIconModule} from '@angular/material/icon';
 import { Slide } from '../../models';
 import { MatDialog } from '@angular/material/dialog';
 import { UploadImagesComponent } from '../upload-images/upload-images.component';
+import { MatTooltipModule, TooltipPosition } from '@angular/material/tooltip';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-table',
@@ -11,7 +13,8 @@ import { UploadImagesComponent } from '../upload-images/upload-images.component'
   imports: [
     MatTableModule,
     MatIconModule,
-    UploadImagesComponent
+    UploadImagesComponent,
+    MatTooltipModule
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss'
@@ -20,6 +23,8 @@ export class TableComponent{
   displayedColumns: string[] = ['name','logo'];
   dataSource = new MatTableDataSource<Slide>();
   data = input.required<Slide[]>();
+  positionOptions: TooltipPosition[] = ['above'];
+  position = new FormControl(this.positionOptions[0]);
 
   constructor(public dialog: MatDialog){
     effect(() => {

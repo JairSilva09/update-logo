@@ -5,7 +5,7 @@
         </div>
         <h2 style="text-align: center">{{updateLogoStore.projectName() | removeUnderscore}}</h2>
         <div class="example-button-container">
-            <button (click)="toggleImageUploadBox()" mat-mini-fab aria-label="Example icon button with a menu icon" >
+            <button matTooltip="Upload multiple images" [matTooltipPosition]="position.value!" (click)="toggleImageUploadBox()" mat-mini-fab aria-label="Example icon button with a menu icon" >
               <mat-icon >collections</mat-icon>
             </button>
         </div>

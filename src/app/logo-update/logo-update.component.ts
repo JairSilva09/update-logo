@@ -11,6 +11,8 @@ import {MatIconModule} from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { RemoveUnderscorePipe } from '../pipes/remove-underscore.pipe';
 import { SearchComponent } from '../shared/search/search.component';
+import {MatTooltipModule, TooltipPosition} from '@angular/material/tooltip';
+import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-logo-update',
   standalone: true,
@@ -19,7 +21,8 @@ import { SearchComponent } from '../shared/search/search.component';
     MatIconModule,
     UploadImagesComponent,
     RemoveUnderscorePipe,
-    SearchComponent
+    SearchComponent,
+    MatTooltipModule
   ],
   templateUrl: './logo-update.component.html',
   styleUrl: './logo-update.component.scss'
@@ -30,6 +33,8 @@ export class LogoUpdateComponent implements OnInit{
 
   projectName: string = '';
   uploadImagesBox: boolean;
+  positionOptions: TooltipPosition[] = ['above'];
+  position = new FormControl(this.positionOptions[0]);
 
   constructor(private activatedRoute: ActivatedRoute,public dialog: MatDialog) {
     this.uploadImagesBox = false;

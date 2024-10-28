@@ -10,7 +10,7 @@
     <mat-cell *matCellDef="let element">
       <div class="logo-container">
         <img [src]="element.logoUrl" alt="">
-        <mat-icon (click)="toggleImageUploadBox(element)">cloud_upload</mat-icon>
+        <mat-icon matTooltip="Upload a single image" [matTooltipPosition]="position.value!" (click)="toggleImageUploadBox(element)">cloud_upload</mat-icon>
       </div>
     </mat-cell>
   </ng-container>
